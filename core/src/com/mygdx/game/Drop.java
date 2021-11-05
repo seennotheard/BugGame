@@ -42,6 +42,8 @@ public class Drop extends ApplicationAdapter {
       rainMusic.setLooping(true);
       rainMusic.play();
 
+      //bingus
+      
       // create the camera and the SpriteBatch
       camera = new OrthographicCamera();
       camera.setToOrtho(false, 800, 480);
