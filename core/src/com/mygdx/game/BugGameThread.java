@@ -13,7 +13,7 @@ public class BugGameThread extends Thread {
 	private boolean running = true;
 	
 	public BugGameThread (Socket socket) {
-		super("BananagramsClientThread");
+		super("BugGameThread");
 		this.socket = socket;
 	}
 	
