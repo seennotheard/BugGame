@@ -3,6 +3,7 @@ package com.mygdx.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Drop;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.Drop;
 import java.awt.Toolkit;
 public class DesktopLauncher {
@@ -12,7 +13,7 @@ public class DesktopLauncher {
       config.title = "BugGame";
       config.width = 800;
       config.height = 480;
-      new LwjglApplication(new Drop(), config);
+      new LwjglApplication(new GameScreen(), config);
    }
 
 
