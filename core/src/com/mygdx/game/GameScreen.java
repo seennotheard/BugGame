@@ -23,8 +23,19 @@ public class GameScreen extends ApplicationAdapter implements InputProcessor {
     TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
+    BugGameClient parent;
     
-    @Override
+    public GameScreen(BugGameClient bugGameClient) {
+		// TODO Auto-generated constructor stub
+    	parent = bugGameClient;
+    	this.create();
+	}
+
+	public GameScreen() {
+		this.create();
+	}
+
+	@Override
     public void create () {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -48,6 +59,7 @@ public class GameScreen extends ApplicationAdapter implements InputProcessor {
 					layer.setCell(x, y, cell);
 				}
 			}
+			layers.add(layer);
 		}
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
