@@ -14,7 +14,7 @@ public class DesktopLauncher {
       config.title = "BugGame";
       config.width = 800;
       config.height = 480;
-      new LwjglApplication(new GameScreen(), config);
+      new LwjglApplication(new BugGameClient(), config);
    }
 
 

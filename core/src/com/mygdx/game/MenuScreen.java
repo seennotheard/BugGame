@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,17 +13,17 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  
 public class MenuScreen implements Screen{
 	
-	private Game parent;
+	private BugGameClient parent;
 	private Stage stage;
 	
-	public MenuScreen(Game game){
+	public MenuScreen(BugGameClient game){
 		parent = game;
 		
 		/// create stage and set it as input processor
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 	}
- 
+	
 	@Override
 	public void show() {
 		// Create a table that fills the screen. Everything else will go inside this table.
@@ -59,6 +58,7 @@ public class MenuScreen implements Screen{
 		newGame.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				parent.changeScreenToGame();
 				//parent.changeScreen(Box2DTutorial.APPLICATION);			
 			}
 		});
@@ -101,11 +101,10 @@ public class MenuScreen implements Screen{
 		
 	}
  
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void hide(){
+        Gdx.input.setInputProcessor(null);
+    }
  
 	@Override
 	public void dispose() {

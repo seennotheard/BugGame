@@ -8,5 +8,4 @@ public class MapTile { //class representing one map tile
 	public void setType() {}
 	public String getType() {
 		return tileType;}
-	
 }

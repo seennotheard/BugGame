@@ -31,7 +31,7 @@ public class BugGameClient extends Game {
 		assetList.add(img);
 		gameSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 		menu = new MenuScreen(this);
-		gameScreen = new GameScreen(this);
+		//gameScreen = new GameScreen(this);
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
 		//connectToServer(localHost, defaultPort);
@@ -41,12 +41,12 @@ public class BugGameClient extends Game {
 		consoleThread.start();
 		this.setScreen(menu);
 	}
-	
+	/*
 	@Override
 	public void render() {
 		menu.render((float) 1.0);
 	}
-	
+	*/
 	@Override
 	public void dispose() {
 		// dispose of all the native resources
@@ -83,5 +83,9 @@ public class BugGameClient extends Game {
         }
 	}
 	*/
+	public void changeScreenToGame() {
+		menu.dispose();
+		this.setScreen(new GameScreen(this));
+	}
 	
 }
