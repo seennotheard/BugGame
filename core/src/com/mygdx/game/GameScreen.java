@@ -92,7 +92,6 @@ public class GameScreen implements InputProcessor, Screen {
 			layers.add(layer);
 		}
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        Gdx.input.setInputProcessor(this);
     }
 	@Override
     public void render (float delta) {
@@ -106,6 +105,7 @@ public class GameScreen implements InputProcessor, Screen {
 
     @Override
     public boolean keyDown(int keycode) {
+    	System.out.println("key pressed");
         return false;
     }
 
@@ -173,7 +173,7 @@ public class GameScreen implements InputProcessor, Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		Gdx.input.setInputProcessor(this);
 		
 	}
 

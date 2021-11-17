@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 public class BugGameClient extends Game {
 	int defaultPort = 25565;
 	String localHost = "127.0.0.1";
-	Screen menu;  //broken :(
+	Screen menu;
 	Screen serverSelect = new ServerScreen(this);
 	GameScreen gameScreen;
 	List<Disposable> assetList = new LinkedList<Disposable>();
@@ -31,6 +31,7 @@ public class BugGameClient extends Game {
 		assetList.add(img);
 		gameSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 		menu = new MenuScreen(this);
+		gameScreen = new GameScreen();
 		//gameScreen = new GameScreen(this);
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
@@ -85,7 +86,7 @@ public class BugGameClient extends Game {
 	*/
 	public void changeScreenToGame() {
 		menu.dispose();
-		this.setScreen(new GameScreen(this));
+		this.setScreen(gameScreen);
 	}
 	
 }
