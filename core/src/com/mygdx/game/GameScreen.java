@@ -40,8 +40,8 @@ public class GameScreen implements InputProcessor, Screen {
 
 	public void create () {
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+        float w = Gdx.graphics.getWidth()/2;
+        float h = Gdx.graphics.getHeight()/2;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
@@ -74,7 +74,7 @@ public class GameScreen implements InputProcessor, Screen {
         tiledMap = new TiledMap();
         MapLayers layers = tiledMap.getLayers();
 		for (int l = 0; l < 20; l++) {
-			TiledMapTileLayer layer = new TiledMapTileLayer(150, 100, 32, 32);
+			TiledMapTileLayer layer = new TiledMapTileLayer(200, 150, 32, 32);
 			for (int x = 0; x < 150; x++) {
 				for (int y = 0; y < 100; y++) {
 					//int ty = (int)(Math.random() * splitTiles.length);
@@ -153,11 +153,12 @@ public class GameScreen implements InputProcessor, Screen {
         return false;
     }
 
-    //@Override (commented out bc there was an error until override annotation was removed?)
+    //@Override (??? error unless override is removed)
     public boolean scrolled(int amount) {
         return false;
     }
 
+	
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
 		// TODO Auto-generated method stub
@@ -200,4 +201,5 @@ public class GameScreen implements InputProcessor, Screen {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
