@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -16,6 +18,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector3;
+
 import java.util.Random;
 
 public class GameScreen implements InputProcessor, Screen {
@@ -25,6 +29,10 @@ public class GameScreen implements InputProcessor, Screen {
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     BugGameClient parent;
+    SpriteBatch sb;
+    Texture texture; //I think this texture is for the sprite, not sure what img is for
+    Sprite sprite;
+    
     
     private final Random random = new Random();
     
@@ -92,7 +100,12 @@ public class GameScreen implements InputProcessor, Screen {
 			layers.add(layer);
 		}
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-    }
+        //Gdx.input.setInputProcessor(this); //shows up in this spot in sprite tutorial
+        
+        sb = new SpriteBatch();
+        texture = new Texture(Gdx.files.internal("droplet.png"));
+        sprite = new Sprite(texture);
+	}
 	@Override
     public void render (float delta) {
         Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -101,6 +114,10 @@ public class GameScreen implements InputProcessor, Screen {
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+        sb.setProjectionMatrix(camera.combined);
+        sb.begin();
+        sprite.draw(sb);
+        sb.end();
     }
 
     @Override
@@ -135,7 +152,10 @@ public class GameScreen implements InputProcessor, Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+    	 Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
+    	 Vector3 position = camera.unproject(clickCoordinates);
+    	 sprite.setPosition(position.x, position.y);
+    	return true;
     }
 
     @Override
