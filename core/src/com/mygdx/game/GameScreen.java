@@ -113,7 +113,7 @@ public class GameScreen implements InputProcessor, Screen {
         }
         
         sb = new SpriteBatch();
-        //texture = new Texture(Gdx.files.internal("kirbs.jpg"));
+        //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already
         sprite = new Sprite(texture);
 	}
 	@Override
@@ -139,13 +139,13 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public boolean keyUp(int keycode) {
     	System.out.println("key pressed");
-        if(keycode == Input.Keys.LEFT)
+        if(keycode == Input.Keys.A | keycode == Input.Keys.LEFT)
             camera.translate(-32,0);
-        if(keycode == Input.Keys.RIGHT)
+        if(keycode == Input.Keys.D | keycode == Input.Keys.RIGHT)
             camera.translate(32,0);
-        if(keycode == Input.Keys.UP)
+        if(keycode == Input.Keys.S | keycode == Input.Keys.DOWN)
             camera.translate(0,-32);
-        if(keycode == Input.Keys.DOWN)
+        if(keycode == Input.Keys.W | keycode == Input.Keys.UP)
             camera.translate(0,32);
         if(keycode == Input.Keys.NUM_1)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
