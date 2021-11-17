@@ -102,8 +102,18 @@ public class GameScreen implements InputProcessor, Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         //Gdx.input.setInputProcessor(this); //shows up in this spot in sprite tutorial
         
+        { //texture scaling
+	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("kirbs.jpg"));
+	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
+	        pixmap100.drawPixmap(pixmap200,
+	                0, 0, pixmap200.getWidth(), pixmap200.getHeight(),
+	                0, 0, pixmap100.getWidth(), pixmap100.getHeight()
+	        );
+	        texture = new Texture(pixmap100);
+        }
+        
         sb = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("droplet.png"));
+        //texture = new Texture(Gdx.files.internal("kirbs.jpg"));
         sprite = new Sprite(texture);
 	}
 	@Override
