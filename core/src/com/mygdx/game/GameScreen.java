@@ -34,6 +34,8 @@ public class GameScreen implements InputProcessor, Screen {
     SpriteBatch sb;
     Texture texture; //I think this texture is for the sprite, not sure what img is for
     Sprite sprite;
+    Texture textureTree;
+    Sprite tree;
     
     
     private final Random random = new Random();
@@ -101,15 +103,6 @@ public class GameScreen implements InputProcessor, Screen {
 			}
 			layers.add(layer);
 		}
-		MapProperties properties = tiledMap.getProperties();
-		System.out.println(properties);
-		/*
-		Iterator itr = properties.getValues();
-		while (itr.hasNext()) {
-			System.out.println(itr.next());
-		}
-		System.out.println(tiledMap.getProperties());
-        */
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         //Gdx.input.setInputProcessor(this); //shows up in this spot in sprite tutorial
         
@@ -124,11 +117,21 @@ public class GameScreen implements InputProcessor, Screen {
         }
         
         sb = new SpriteBatch();
-        //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already
+        //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already       
+        { //texture scaling
+	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("tree.png"));
+	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
+	        pixmap100.drawPixmap(pixmap200,
+	                0, 0, pixmap200.getWidth(), pixmap200.getHeight(),
+	                0, 0, pixmap100.getWidth(), pixmap100.getHeight()
+	        );
+	        textureTree = new Texture(pixmap100);
+        }
         sprite = new Sprite(texture);
+        tree = new Sprite(textureTree);
 	}
 	@Override
-    public void render (float delta) {
+    public void render (float delta) { 
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -138,6 +141,7 @@ public class GameScreen implements InputProcessor, Screen {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
+        tree.draw(sb);
         sb.end();
     }
 
