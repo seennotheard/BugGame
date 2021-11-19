@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameScreen implements InputProcessor, Screen {
@@ -99,6 +101,15 @@ public class GameScreen implements InputProcessor, Screen {
 			}
 			layers.add(layer);
 		}
+		MapProperties properties = tiledMap.getProperties();
+		System.out.println(properties);
+		/*
+		Iterator itr = properties.getValues();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		System.out.println(tiledMap.getProperties());
+        */
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         //Gdx.input.setInputProcessor(this); //shows up in this spot in sprite tutorial
         
