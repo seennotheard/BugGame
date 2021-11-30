@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Iterator;
@@ -36,7 +38,7 @@ public class GameScreen implements InputProcessor, Screen {
     Sprite sprite;
     Texture textureTree;
     Sprite tree;
-    
+    TextureRegion[][] dirtTile;
     
     private final Random random = new Random();
     
@@ -80,12 +82,22 @@ public class GameScreen implements InputProcessor, Screen {
 	        grass = new Texture(pixmap100);
         }
         
-        TextureRegion[][] dirtTile = TextureRegion.split(dirt, 32, 32);
+        { //texture scaling
+	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("tree.png"));
+	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
+	        pixmap100.drawPixmap(pixmap200,
+	                0, 0, pixmap200.getWidth(), pixmap200.getHeight(),
+	                0, 0, pixmap100.getWidth(), pixmap100.getHeight()
+	        );
+	        textureTree = new Texture(pixmap100);
+        }
+        dirtTile = TextureRegion.split(dirt, 32, 32);
         //dirtTile.setTexture(dirt);
         TextureRegion[][] grassTile = TextureRegion.split(grass, 32, 32);
+        TextureRegion[][] treeTile = TextureRegion.split(textureTree, 32, 32);
         tiledMap = new TiledMap();
         MapLayers layers = tiledMap.getLayers();
-		for (int l = 0; l < 20; l++) {
+		for (int l = 0; l < 1; l++) {
 			TiledMapTileLayer layer = new TiledMapTileLayer(200, 150, 32, 32);
 			for (int x = 0; x < 150; x++) {
 				for (int y = 0; y < 100; y++) {
@@ -96,6 +108,23 @@ public class GameScreen implements InputProcessor, Screen {
 						cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
 					} else {
 						cell.setTile(new StaticTiledMapTile(grassTile[0][0]));
+					}
+
+					layer.setCell(x, y, cell);
+				}
+			}
+			layers.add(layer);
+		}
+		{
+			TiledMapTileLayer layer = new TiledMapTileLayer(200, 150, 32, 32);
+			for (int x = 0; x < 150; x++) {
+				for (int y = 0; y < 100; y++) {
+					//int ty = (int)(Math.random() * splitTiles.length);
+					//int tx = (int)(Math.random() * splitTiles[ty].length);
+					Cell cell = new Cell();
+					if (random.nextBoolean()) {
+						cell.setTile(new StaticTiledMapTile(treeTile[0][0]));
+					} else {
 					}
 
 					layer.setCell(x, y, cell);
@@ -118,17 +147,10 @@ public class GameScreen implements InputProcessor, Screen {
         
         sb = new SpriteBatch();
         //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already       
-        { //texture scaling
-	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("tree.png"));
-	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
-	        pixmap100.drawPixmap(pixmap200,
-	                0, 0, pixmap200.getWidth(), pixmap200.getHeight(),
-	                0, 0, pixmap100.getWidth(), pixmap100.getHeight()
-	        );
-	        textureTree = new Texture(pixmap100);
-        }
+        
         sprite = new Sprite(texture);
-        tree = new Sprite(textureTree);
+        //TextureRegion treeRegion = new TextureRegion(textureTree, 10, 10, 32, 32);
+        //tree = new Sprite(treeRegion);
 	}
 	@Override
     public void render (float delta) { 
@@ -141,7 +163,8 @@ public class GameScreen implements InputProcessor, Screen {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
-        tree.draw(sb);
+        //sb.draw(textureTree, new Rectangle(150, 250, 10, 10), Color.WHITE);
+        //tree.draw(sb);
         sb.end();
     }
 
@@ -177,9 +200,16 @@ public class GameScreen implements InputProcessor, Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    	 Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
-    	 Vector3 position = camera.unproject(clickCoordinates);
-    	 sprite.setPosition(position.x, position.y);
+    	MapLayers layers = tiledMap.getLayers(); 
+    	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
+
+    	
+    	Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
+    	Vector3 position = camera.unproject(clickCoordinates);
+    	sprite.setPosition(position.x, position.y);
+    	Cell cell = null;//layer.getCell((int) position.x / 32, (int) position.y / 32);
+    	//cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
+    	layer.setCell((int) position.x / 32, (int) position.y / 32, cell);
     	return true;
     }
 
