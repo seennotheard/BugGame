@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,6 +43,8 @@ public class GameScreen implements InputProcessor, Screen {
     TextureRegion[][] grassTile;
     Texture textureTree;
     Sprite tree;
+    BitmapFont counter = new BitmapFont();
+    int foodCounter = 0;
     
     private final Random random = new Random();
     
@@ -135,6 +138,7 @@ public class GameScreen implements InputProcessor, Screen {
 					if (random.nextBoolean()) {
 						cell.setTile(new StaticTiledMapTile(treeTile[0][0]));
 					} else {
+						cell = null;
 					}
 
 					layer.setCell(x, y, cell);
@@ -146,7 +150,7 @@ public class GameScreen implements InputProcessor, Screen {
         //Gdx.input.setInputProcessor(this); //shows up in this spot in sprite tutorial
         
         { //texture scaling
-	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("kirbs.jpg"));
+	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("ant.png"));
 	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
 	        pixmap100.drawPixmap(pixmap200,
 	                0, 0, pixmap200.getWidth(), pixmap200.getHeight(),
@@ -156,7 +160,7 @@ public class GameScreen implements InputProcessor, Screen {
         }
         
         sb = new SpriteBatch();
-        //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already       
+        //texture = new Texture(Gdx.files.internal("ant.png")); ^texture is set to scaled kirbs already       
         
         sprite = new Sprite(texture);
         //TextureRegion treeRegion = new TextureRegion(textureTree, 10, 10, 32, 32);
@@ -186,6 +190,8 @@ public class GameScreen implements InputProcessor, Screen {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
+        
+        counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
         //sb.draw(textureTree, new Rectangle(150, 250, 10, 10), Color.WHITE);
         //tree.draw(sb);
         sb.end();
@@ -225,14 +231,20 @@ public class GameScreen implements InputProcessor, Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     	MapLayers layers = tiledMap.getLayers(); 
     	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
-
-    	
+   
     	Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
     	Vector3 position = camera.unproject(clickCoordinates);
     	sprite.setPosition(position.x, position.y);
-    	Cell cell = null;//layer.getCell((int) position.x / 32, (int) position.y / 32);
+    	
+    	//Cell cell = null;//layer.getCell((int) position.x / 32, (int) position.y / 32);
     	//cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
-    	layer.setCell((int) position.x / 32, (int) position.y / 32, cell);
+    	Cell cell = layer.getCell((int) position.x / 32, (int) position.y / 32);
+    	if (cell != null) {
+    		foodCounter ++ ;
+    		layer.setCell((int) position.x / 32, (int) position.y / 32, null);
+    		System.out.println("tree nom");
+    	}
+    	System.out.println(foodCounter);   
     	return true;
     }
 
