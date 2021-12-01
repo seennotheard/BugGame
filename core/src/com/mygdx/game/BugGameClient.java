@@ -36,11 +36,15 @@ public class BugGameClient extends Game {
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
 		//connectToServer(localHost, defaultPort);
-		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort);
+		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort, this);
 		connectionThread.start();
 		ConsoleThread consoleThread = new ConsoleThread(connectionThread);
 		consoleThread.start();
 		this.setScreen(menu);
+	}
+	
+	public void setTileType(int x, int y, int type) {
+		gameScreen.setTileType(x, y, type);
 	}
 	/*
 	@Override

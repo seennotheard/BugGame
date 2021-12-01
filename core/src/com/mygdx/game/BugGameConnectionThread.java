@@ -13,14 +13,15 @@ public class BugGameConnectionThread extends Thread {
 	private boolean running = true;
 	private PrintWriter out;
 	private BufferedReader in;
-	
+	private BugGameClient parent;
 	public BugGameConnectionThread (Socket socket) {
 		super("BugGameThread");
 		this.socket = socket;
 	}
 	
-	public BugGameConnectionThread (String hostName, int portNumber) {
+	public BugGameConnectionThread (String hostName, int portNumber, BugGameClient bugGame) {
 		super("BugGameThread");
+		parent = bugGame;
 		try {
 			socket = new Socket(hostName, portNumber);
 		} catch (UnknownHostException e) {
@@ -41,9 +42,32 @@ public class BugGameConnectionThread extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String fromServer;
+			boolean takingMapInfo = false;
+
+			int y = 0;
 			while (running) {
 				if ((fromServer = in.readLine()) != null) {
+					//System.out.println("new line");
 					System.out.println(fromServer);
+					if (takingMapInfo) {
+						if (fromServer.equals("</map>")) {
+							takingMapInfo = false;
+							break;
+						}
+						System.out.println("true");
+						int x = 0;
+						for (char ch : fromServer.toCharArray()) {
+							System.out.println("setTile" + y);
+							parent.setTileType(x, y, Character.getNumericValue(ch));
+							x++;
+					    	//System.out.print(scientistName.charAt(i) + " ");
+					    }
+						y++;
+					}
+					else if (fromServer.equals("<map>")) {
+						takingMapInfo = true;
+						y = 0;
+					}
 				}
 			}
 			socket.close();

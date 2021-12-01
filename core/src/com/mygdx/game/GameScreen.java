@@ -32,7 +32,10 @@ public class GameScreen implements InputProcessor, Screen {
     SpriteBatch sb;
     Texture texture; //I think this texture is for the sprite, not sure what img is for
     Sprite sprite;
-    
+    Texture dirt;
+    Texture grass;
+    TextureRegion[][] dirtTile;
+    TextureRegion[][] grassTile;
     
     private final Random random = new Random();
     
@@ -48,15 +51,14 @@ public class GameScreen implements InputProcessor, Screen {
 
 	public void create () {
 
-        float w = Gdx.graphics.getWidth()/2;
-        float h = Gdx.graphics.getHeight()/2;
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
         
-        Texture dirt;
-        Texture grass;
+
         { //texture scaling
 	        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("dirt.jpg"));
 	        Pixmap pixmap100 = new Pixmap(32, 32, pixmap200.getFormat());
@@ -76,17 +78,18 @@ public class GameScreen implements InputProcessor, Screen {
 	        grass = new Texture(pixmap100);
         }
         
-        TextureRegion[][] dirtTile = TextureRegion.split(dirt, 32, 32);
+        dirtTile = TextureRegion.split(dirt, 32, 32);
         //dirtTile.setTexture(dirt);
-        TextureRegion[][] grassTile = TextureRegion.split(grass, 32, 32);
+        grassTile = TextureRegion.split(grass, 32, 32);
         tiledMap = new TiledMap();
         MapLayers layers = tiledMap.getLayers();
-		for (int l = 0; l < 20; l++) {
-			TiledMapTileLayer layer = new TiledMapTileLayer(200, 150, 32, 32);
-			for (int x = 0; x < 150; x++) {
-				for (int y = 0; y < 100; y++) {
+		for (int l = 0; l < 1; l++) {
+			TiledMapTileLayer layer = new TiledMapTileLayer(10, 10, 32, 32);
+			for (int x = 0; x < 10; x++) {
+				for (int y = 0; y < 10; y++) {
 					//int ty = (int)(Math.random() * splitTiles.length);
 					//int tx = (int)(Math.random() * splitTiles[ty].length);
+					/*
 					Cell cell = new Cell();
 					if (random.nextBoolean()) {
 						cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
@@ -95,6 +98,7 @@ public class GameScreen implements InputProcessor, Screen {
 					}
 
 					layer.setCell(x, y, cell);
+					*/
 				}
 			}
 			layers.add(layer);
@@ -115,6 +119,19 @@ public class GameScreen implements InputProcessor, Screen {
         sb = new SpriteBatch();
         //texture = new Texture(Gdx.files.internal("kirbs.jpg")); ^texture is set to scaled kirbs already
         sprite = new Sprite(texture);
+	}
+	
+	public void setTileType(int x, int y, int type) { //0 for dirt, 1 for grass
+		Cell cell = new Cell();
+		MapLayers layers = tiledMap.getLayers();
+		TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(0);
+		if (type == 0) {
+			cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
+		}
+		else {
+			cell.setTile(new StaticTiledMapTile(grassTile[0][0]));
+		}
+		layer.setCell(x,  y, cell);
 	}
 	@Override
     public void render (float delta) {
@@ -147,9 +164,9 @@ public class GameScreen implements InputProcessor, Screen {
             camera.translate(0,-32);
         if(keycode == Input.Keys.W | keycode == Input.Keys.UP)
             camera.translate(0,32);
-        if(keycode == Input.Keys.NUM_1)
+        if(keycode == Input.Keys.Q)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
-        if(keycode == Input.Keys.NUM_2)
+        if(keycode == Input.Keys.E)
             tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
         return false;
     }
