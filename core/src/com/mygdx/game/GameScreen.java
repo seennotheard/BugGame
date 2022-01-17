@@ -267,7 +267,7 @@ public class GameScreen implements InputProcessor, Screen {
    
     	Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
     	Vector3 position = camera.unproject(clickCoordinates);
-    	sprite.setPosition(position.x, position.y);
+    	sprite.setPosition(camera.position.x, camera.position.y);
     	
     	//Cell cell = null;//layer.getCell((int) position.x / 32, (int) position.y / 32);
     	//cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
