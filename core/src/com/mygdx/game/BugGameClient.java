@@ -41,6 +41,7 @@ public class BugGameClient extends Game {
 		ConsoleThread consoleThread = new ConsoleThread(connectionThread);
 		consoleThread.start();
 		this.setScreen(menu);
+		Gdx.graphics.setContinuousRendering(true);
 	}
 	
 	public void setTileType(int x, int y, int type) {

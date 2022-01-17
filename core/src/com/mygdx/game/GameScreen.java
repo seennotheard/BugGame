@@ -165,6 +165,7 @@ public class GameScreen implements InputProcessor, Screen {
         sprite = new Sprite(texture);
         //TextureRegion treeRegion = new TextureRegion(textureTree, 10, 10, 32, 32);
         //tree = new Sprite(treeRegion);
+        Gdx.graphics.setContinuousRendering(true);
 	}
 	
 	public void setTileType(int x, int y, int type) { //0 for dirt, 1 for grass
@@ -179,22 +180,50 @@ public class GameScreen implements InputProcessor, Screen {
 		}
 		layer.setCell(x,  y, cell);
 	}
+	
+	boolean moving = false;
+	int framesSinceLastKeypress = 0;
+	int lastKeycode;
+	float n = 20;
 	@Override
     public void render (float delta) { 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (moving) {
+        	System.out.println("moving!");
+        	framesSinceLastKeypress++;
+        	if (framesSinceLastKeypress == n) {
+        		moving = false;
+        		framesSinceLastKeypress = 0;
+        	}
+        	if(lastKeycode == Input.Keys.A | lastKeycode == Input.Keys.LEFT)
+                camera.translate(-32/n,0);
+            if(lastKeycode == Input.Keys.D | lastKeycode == Input.Keys.RIGHT)
+                camera.translate(32/n,0);
+            if(lastKeycode == Input.Keys.S | lastKeycode == Input.Keys.DOWN)
+                camera.translate(0,-32/n);
+            if(lastKeycode == Input.Keys.W | lastKeycode == Input.Keys.UP)
+                camera.translate(0,32/n);
+            if(lastKeycode == Input.Keys.Q)
+                tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
+            if(lastKeycode == Input.Keys.E)
+                tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
+        }
+        
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
-        
+
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
         //sb.draw(textureTree, new Rectangle(150, 250, 10, 10), Color.WHITE);
         //tree.draw(sb);
-        sb.end();
+        sb.end();		
+      
+        //System.out.println("rendering!");
     }
 
     @Override
@@ -205,8 +234,11 @@ public class GameScreen implements InputProcessor, Screen {
 
     @Override
     public boolean keyUp(int keycode) {
-    	System.out.println("key pressed");
-        if(keycode == Input.Keys.A | keycode == Input.Keys.LEFT)
+    	System.out.println("key released");
+    	moving = true;
+    	lastKeycode = keycode;
+    	/**
+    	if(keycode == Input.Keys.A | keycode == Input.Keys.LEFT)
             camera.translate(-32,0);
         if(keycode == Input.Keys.D | keycode == Input.Keys.RIGHT)
             camera.translate(32,0);
@@ -217,8 +249,9 @@ public class GameScreen implements InputProcessor, Screen {
         if(keycode == Input.Keys.Q)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
         if(keycode == Input.Keys.E)
-            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
-        return false;
+            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());	
+        **/
+    	return false;
     }
 
     @Override
