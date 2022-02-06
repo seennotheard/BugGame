@@ -32,12 +32,12 @@ public class BugGameClient extends Game {
 		assetList.add(img);
 		gameSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 		menu = new MenuScreen(this);
-		gameScreen = new GameScreen();
+		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort, this);
+		gameScreen = new GameScreen(this, connectionThread);
 		//gameScreen = new GameScreen(this);
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
 		//connectToServer(localHost, defaultPort);
-		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort, this);
 		connectionThread.start();
 		ConsoleThread consoleThread = new ConsoleThread(connectionThread);
 		consoleThread.start();

@@ -45,18 +45,17 @@ public class GameScreen implements InputProcessor, Screen {
     Sprite tree;
     BitmapFont counter = new BitmapFont();
     int foodCounter = 0;
+    BugGameConnectionThread connectionThread;
     
     private final Random random = new Random();
     
-    public GameScreen(BugGameClient bugGameClient) {
+    public GameScreen(BugGameClient bugGameClient, BugGameConnectionThread connectionThread) {
 		// TODO Auto-generated constructor stub
     	parent = bugGameClient;
+    	this.connectionThread = connectionThread;
     	this.create();
 	}
 
-	public GameScreen() {
-		this.create();
-	}
 
 	public void create () {
 
@@ -213,6 +212,10 @@ public class GameScreen implements InputProcessor, Screen {
                 camera.translate(0,32/n);
                 sprite.setRotation(0);
         	}
+            connectionThread.consoleInput("<move>");
+            connectionThread.consoleInput(String.valueOf(camera.position.x - 16));
+            connectionThread.consoleInput(String.valueOf(camera.position.y - 16));
+            connectionThread.consoleInput("</end>");
         }
         if(lastKeycode == Input.Keys.Q)
             tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
@@ -225,6 +228,7 @@ public class GameScreen implements InputProcessor, Screen {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.setPosition(camera.position.x - 16, camera.position.y - 16);
+
         sprite.draw(sb);
 
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
