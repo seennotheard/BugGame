@@ -42,32 +42,37 @@ public class BugGameConnectionThread extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String fromServer;
-			boolean takingMapInfo = false;
-
-			int y = 0;
+			
 			while (running) {
 				if ((fromServer = in.readLine()) != null) {
 					//System.out.println("new line");
 					System.out.println(fromServer);
+					MessageProcessor.processLine(fromServer);
+					/*
 					if (takingMapInfo) {
 						if (fromServer.equals("</map>")) {
 							takingMapInfo = false;
 							break;
+							
 						}
-						System.out.println("true");
+						
+						//System.out.println("true");
+						
 						int x = 0;
 						for (char ch : fromServer.toCharArray()) {
-							System.out.println("setTile" + y);
+							//System.out.println("setTile" + y);
 							parent.setTileType(x, y, Character.getNumericValue(ch));
 							x++;
 					    	//System.out.print(scientistName.charAt(i) + " ");
 					    }
 						y++;
 					}
+					//hashmap.get(fromServer);
 					else if (fromServer.equals("<map>")) {
 						takingMapInfo = true;
 						y = 0;
 					}
+					*/
 				}
 			}
 			socket.close();

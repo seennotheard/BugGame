@@ -25,6 +25,7 @@ public class BugGameClient extends Game {
 
 	@Override
 	public void create() {
+		MessageProcessor.initialize(this);
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		assetList.add(batch);
