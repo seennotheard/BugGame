@@ -194,8 +194,10 @@ public class GameScreen implements InputProcessor, Screen {
         if (moving) {
         	//System.out.println("moving!");
         	framesSinceLastKeypress++;
-        	if (movementKeyHold = false || framesSinceLastKeypress == n) {
-        		moving = false;
+        	if (framesSinceLastKeypress == n) {
+        		if (movementKeyHold == false) {
+        			moving = false;
+        		}
         		framesSinceLastKeypress = 0;
         	}
         	if(lastKeycode == Input.Keys.A | lastKeycode == Input.Keys.LEFT) {
