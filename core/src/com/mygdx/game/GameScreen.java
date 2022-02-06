@@ -197,25 +197,34 @@ public class GameScreen implements InputProcessor, Screen {
         		moving = false;
         		framesSinceLastKeypress = 0;
         	}
-        	if(lastKeycode == Input.Keys.A | lastKeycode == Input.Keys.LEFT)
+        	if(lastKeycode == Input.Keys.A | lastKeycode == Input.Keys.LEFT) {
                 camera.translate(-32/n,0);
-            if(lastKeycode == Input.Keys.D | lastKeycode == Input.Keys.RIGHT)
+                sprite.setRotation(90);
+        	}
+            if(lastKeycode == Input.Keys.D | lastKeycode == Input.Keys.RIGHT) {
                 camera.translate(32/n,0);
-            if(lastKeycode == Input.Keys.S | lastKeycode == Input.Keys.DOWN)
+                sprite.setRotation(-90);
+        	}
+            if(lastKeycode == Input.Keys.S | lastKeycode == Input.Keys.DOWN) {
                 camera.translate(0,-32/n);
-            if(lastKeycode == Input.Keys.W | lastKeycode == Input.Keys.UP)
+                sprite.setRotation(180);
+        	}
+            if(lastKeycode == Input.Keys.W | lastKeycode == Input.Keys.UP) {
                 camera.translate(0,32/n);
-            if(lastKeycode == Input.Keys.Q)
-                tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
-            if(lastKeycode == Input.Keys.E)
-                tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
+                sprite.setRotation(0);
+        	}
         }
+        if(lastKeycode == Input.Keys.Q)
+            tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
+        if(lastKeycode == Input.Keys.E)
+            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
         
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        sprite.setPosition(camera.position.x - 16, camera.position.y - 16);
         sprite.draw(sb);
 
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
@@ -229,14 +238,29 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public boolean keyDown(int keycode) {
     	System.out.println("key pressed");
+    	//tree nomming things in progress
+    	/**
+    	MapLayers layers = tiledMap.getLayers(); 
+    	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
+   
+    	Cell cell = layer.getCell((int) camera.position.x / 32, (int) camera.position.y / 32);
+    	if (cell != null) {
+    		foodCounter ++ ;
+    		layer.setCell((int) camera.position.x / 32, (int) camera.position.y / 32, null);
+    		System.out.println("tree nom");
+    	}
+    	System.out.println(foodCounter);   
+    	**/
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
     	System.out.println("key released");
-    	moving = true;
-    	lastKeycode = keycode;
+    	if (!moving) {
+    		lastKeycode = keycode;
+    		moving = true;
+    	}
     	/**
     	if(keycode == Input.Keys.A | keycode == Input.Keys.LEFT)
             camera.translate(-32,0);
@@ -262,12 +286,13 @@ public class GameScreen implements InputProcessor, Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    	/**
     	MapLayers layers = tiledMap.getLayers(); 
     	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
    
     	Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
     	Vector3 position = camera.unproject(clickCoordinates);
-    	sprite.setPosition(camera.position.x, camera.position.y);
+    	//sprite.setPosition(camera.position.x, camera.position.y);
     	
     	//Cell cell = null;//layer.getCell((int) position.x / 32, (int) position.y / 32);
     	//cell.setTile(new StaticTiledMapTile(dirtTile[0][0]));
@@ -278,6 +303,7 @@ public class GameScreen implements InputProcessor, Screen {
     		System.out.println("tree nom");
     	}
     	System.out.println(foodCounter);   
+    	**/
     	return true;
     }
 
