@@ -182,6 +182,7 @@ public class GameScreen implements InputProcessor, Screen {
 	}
 	
 	boolean moving = false;
+	boolean movementKeyHold = false;
 	int framesSinceLastKeypress = 0;
 	int lastKeycode;
 	float n = 20;
@@ -193,7 +194,7 @@ public class GameScreen implements InputProcessor, Screen {
         if (moving) {
         	//System.out.println("moving!");
         	framesSinceLastKeypress++;
-        	if (framesSinceLastKeypress == n) {
+        	if (movementKeyHold = false || framesSinceLastKeypress == n) {
         		moving = false;
         		framesSinceLastKeypress = 0;
         	}
@@ -238,28 +239,39 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public boolean keyDown(int keycode) {
     	System.out.println("key pressed");
-    	//tree nomming things in progress
-    	/**
-    	MapLayers layers = tiledMap.getLayers(); 
-    	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
-   
-    	Cell cell = layer.getCell((int) camera.position.x / 32, (int) camera.position.y / 32);
-    	if (cell != null) {
-    		foodCounter ++ ;
-    		layer.setCell((int) camera.position.x / 32, (int) camera.position.y / 32, null);
-    		System.out.println("tree nom");
+    	if (!moving && (keycode == Input.Keys.W || keycode == Input.Keys.A 
+    			|| keycode == Input.Keys.S || keycode == Input.Keys.D 
+    			|| keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT 
+    			|| keycode == Input.Keys.DOWN || keycode == Input.Keys.UP)) {
+    		lastKeycode = keycode;
+    		moving = true;
+    		movementKeyHold = true;
     	}
-    	System.out.println(foodCounter);   
-    	**/
+    	else if (keycode == Input.Keys.E) {
+    		MapLayers layers = tiledMap.getLayers(); 
+        	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
+        	Cell cell = layer.getCell((int) camera.position.x / 32, (int) camera.position.y / 32);
+        	if (cell != null) {
+        		foodCounter ++ ;
+        		layer.setCell((int) camera.position.x / 32, (int) camera.position.y / 32, null);
+        		System.out.println("tree nom");
+        	}
+        	System.out.println(foodCounter); 
+    	}
+    	else {
+    	}  
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
     	System.out.println("key released");
-    	if (!moving) {
-    		lastKeycode = keycode;
-    		moving = true;
+    	movementKeyHold = false;
+    	if (keycode == Input.Keys.W || keycode == Input.Keys.A 
+    			|| keycode == Input.Keys.S || keycode == Input.Keys.D 
+    			|| keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT 
+    			|| keycode == Input.Keys.DOWN || keycode == Input.Keys.UP) {
+    		movementKeyHold = false;
     	}
     	/**
     	if(keycode == Input.Keys.A | keycode == Input.Keys.LEFT)
