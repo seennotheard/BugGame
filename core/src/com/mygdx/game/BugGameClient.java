@@ -20,6 +20,7 @@ public class BugGameClient extends Game {
 	
 	SpriteBatch batch;
 	Texture img;
+	public int idNumber;
 	
 	static public Skin gameSkin;
 

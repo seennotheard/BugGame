@@ -34,11 +34,63 @@ public class MessageProcessor {
 		
 	}
 	
+	static class IdNumberThing implements LineParser {
+			
+			public IdNumberThing() {
+			}
+	
+			public void parseLine(String line) {
+				parent.idNumber = Integer.parseInt(line);
+			}
+			
+			public void end() {
+			}
+			
+		}
+	
+	static class MoveProcessor implements LineParser {
+		
+		boolean takingMapInfo = false;
+		int lineNumber = 0;
+		int id = 0;
+		float x = 0;
+		float y = 0;
+		public MoveProcessor() {
+		}
+
+		public void parseLine(String line) {
+			if (lineNumber == 0) {
+				id = Integer.parseInt(line);
+			}
+			else if (lineNumber == 1) {
+				x = Integer.parseInt(line);
+			}
+			else if (lineNumber == 2) {
+				y = Integer.parseInt(line);
+			}
+
+		}
+		
+		public void end() {
+			if (id != parent.idNumber) {
+				// move second ant
+			}
+			id = 0;
+			x = 0;
+			y = 0;
+			lineNumber = 0;
+		}
+		
+	}
 	
 	static MapRunnable mapRunnable = new MapRunnable();
+	static IdNumberThing idNumberThing = new IdNumberThing();
+	static MoveProcessor moveProcessor = new MoveProcessor();
 	
 	public static void initialize(BugGameClient bugGame) {
 		hashMap.put("<map>", mapRunnable);
+		hashMap.put("<id>", idNumberThing);
+		hashMap.put("<move>", moveProcessor);
 		currentRunnable = null;
 		parent = bugGame;
 	}
