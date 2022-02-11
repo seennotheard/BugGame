@@ -37,6 +37,7 @@ public class GameScreen implements InputProcessor, Screen {
     SpriteBatch sb;
     Texture texture; //I think this texture is for the sprite, not sure what img is for
     Sprite sprite;
+    Sprite player2;
     Texture dirt;
     Texture grass;
     TextureRegion[][] dirtTile;
@@ -162,6 +163,7 @@ public class GameScreen implements InputProcessor, Screen {
         //texture = new Texture(Gdx.files.internal("ant.png")); ^texture is set to scaled kirbs already       
         
         sprite = new Sprite(texture);
+        player2 = new Sprite(texture);
         //TextureRegion treeRegion = new TextureRegion(textureTree, 10, 10, 32, 32);
         //tree = new Sprite(treeRegion);
         Gdx.graphics.setContinuousRendering(true);
@@ -231,8 +233,10 @@ public class GameScreen implements InputProcessor, Screen {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.setPosition(camera.position.x - 16, camera.position.y - 16);
+        //player2.setPosition(camera.position.x + 10, camera.position.y);
 
         sprite.draw(sb);
+        player2.draw(sb);
 
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
         //sb.draw(textureTree, new Rectangle(150, 250, 10, 10), Color.WHITE);
@@ -242,6 +246,10 @@ public class GameScreen implements InputProcessor, Screen {
         //System.out.println("rendering!");
     }
 
+	public void movePlayer2(int x, int y) {
+		player2.setPosition(x, y);
+	}
+	
     @Override
     public boolean keyDown(int keycode) {
     	System.out.println("key pressed");
