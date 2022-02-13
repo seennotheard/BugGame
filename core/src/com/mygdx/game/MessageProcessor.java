@@ -63,17 +63,17 @@ public class MessageProcessor {
 				id = Integer.parseInt(line);
 			}
 			else if (lineNumber == 1) {
-				x = Integer.parseInt(line);
+				x = Float.parseFloat(line);
 			}
 			else if (lineNumber == 2) {
-				y = Integer.parseInt(line);
+				y = Float.parseFloat(line);
 			}
-
+			lineNumber++;
 		}
 		
 		public void end() {
 			if (id != parent.idNumber) {
-				// move second ant
+				parent.gameScreen.movePlayer2(x, y);
 			}
 			id = 0;
 			x = 0;

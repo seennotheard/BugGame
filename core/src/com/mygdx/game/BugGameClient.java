@@ -15,7 +15,7 @@ public class BugGameClient extends Game {
 	String localHost = "127.0.0.1";
 	Screen menu;
 	Screen serverSelect = new ServerScreen(this);
-	GameScreen gameScreen;
+	public GameScreen gameScreen;
 	List<Disposable> assetList = new LinkedList<Disposable>();
 	
 	SpriteBatch batch;

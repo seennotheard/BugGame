@@ -246,7 +246,7 @@ public class GameScreen implements InputProcessor, Screen {
         //System.out.println("rendering!");
     }
 
-	public void movePlayer2(int x, int y) {
+	public void movePlayer2(float x, float y) {
 		player2.setPosition(x, y);
 	}
 	
