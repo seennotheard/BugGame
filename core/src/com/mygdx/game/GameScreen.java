@@ -24,6 +24,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -36,8 +37,11 @@ public class GameScreen implements InputProcessor, Screen {
     BugGameClient parent;
     SpriteBatch sb;
     Texture texture; //I think this texture is for the sprite, not sure what img is for
+    
+    ArrayList<Sprite> sprites = new ArrayList<Sprite>();
     Sprite sprite;
     Sprite player2;
+    
     Texture dirt;
     Texture grass;
     TextureRegion[][] dirtTile;
@@ -235,8 +239,13 @@ public class GameScreen implements InputProcessor, Screen {
         sprite.setPosition(camera.position.x - 16, camera.position.y - 16);
         //player2.setPosition(camera.position.x + 10, camera.position.y);
 
-        sprite.draw(sb);
-        player2.draw(sb);
+        for (int i = 0; i < parent.players.size(); i++) {
+        	sprites.get(i).setPosition(parent.players.get(i).getX(), parent.players.get(i).getY());
+        	sprites.get(i).draw(sb);
+        }
+        
+        //sprite.draw(sb);
+        //player2.draw(sb);
 
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
         //sb.draw(textureTree, new Rectangle(150, 250, 10, 10), Color.WHITE);

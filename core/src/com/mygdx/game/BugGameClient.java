@@ -1,4 +1,5 @@
 package com.mygdx.game;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 
 public class BugGameClient extends Game {
+	public ArrayList<Ant> players = new ArrayList<Ant>();
+	
 	int defaultPort = 25565;
 	String localHost = "127.0.0.1";
 	Screen menu;
