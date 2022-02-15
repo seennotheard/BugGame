@@ -49,6 +49,15 @@ public class BugGameClient extends Game {
 		Gdx.graphics.setContinuousRendering(true);
 	}
 	
+	public void addPlayer(int id) {
+		players.add(new Ant(id));
+		gameScreen.addSprite();
+	}
+	
+	public void removePlayer() {
+		//todo
+	}
+	
 	public void setTileType(int x, int y, int type) {
 		gameScreen.setTileType(x, y, type);
 	}
@@ -97,6 +106,18 @@ public class BugGameClient extends Game {
 	public void changeScreenToGame() {
 		menu.dispose();
 		this.setScreen(gameScreen);
+	}
+
+	public void updateLocation(int id, float x, float y) {
+		for(Ant player : players) {
+			if (player.getID() == id) {
+				player.setX(x);
+				player.setY(y);
+				System.out.println("position updated");
+				break;
+			}
+		}
+		
 	}
 	
 }

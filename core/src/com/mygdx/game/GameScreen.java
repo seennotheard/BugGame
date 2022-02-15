@@ -244,7 +244,7 @@ public class GameScreen implements InputProcessor, Screen {
         	sprites.get(i).draw(sb);
         }
         
-        //sprite.draw(sb);
+        sprite.draw(sb);
         //player2.draw(sb);
 
         counter.draw(sb, Integer.toString(foodCounter), camera.position.x + (12 * 32), camera.position.y + (7 * 32));
@@ -254,10 +254,16 @@ public class GameScreen implements InputProcessor, Screen {
       
         //System.out.println("rendering!");
     }
-
+	
+	public void addSprite() {
+		sprites.add(new Sprite(texture));
+	}
+	
+	/*
 	public void movePlayer2(float x, float y) {
 		player2.setPosition(x, y);
 	}
+	*/
 	
     @Override
     public boolean keyDown(int keycode) {

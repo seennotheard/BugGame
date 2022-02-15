@@ -2,8 +2,8 @@ package com.mygdx.game;
 
 public class Ant {
 	private int id;
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	private int rotation;
 	
 	public static final int UP = 0;
@@ -24,12 +24,20 @@ public class Ant {
 		return id;
 	}
 	
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 	
-	public int getY() {
+	public float getY() {
 		return y;
+	}
+	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
 	}
 	
 	public int getRotation() {

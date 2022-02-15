@@ -61,6 +61,7 @@ public class MessageProcessor {
 		public void parseLine(String line) {
 			if (lineNumber == 0) {
 				id = Integer.parseInt(line);
+				System.out.println("id: " + id);
 			}
 			else if (lineNumber == 1) {
 				x = Float.parseFloat(line);
@@ -73,7 +74,7 @@ public class MessageProcessor {
 		
 		public void end() {
 			if (id != parent.idNumber) {
-				parent.gameScreen.movePlayer2(x, y);
+				parent.updateLocation(id, x, y);
 			}
 			id = 0;
 			x = 0;
@@ -83,14 +84,46 @@ public class MessageProcessor {
 		
 	}
 	
+	static class NewPlayerProcessor implements LineParser {
+		
+		public NewPlayerProcessor() {
+		}
+
+		public void parseLine(String line) {
+			int id = Integer.parseInt(line);
+			parent.addPlayer(id);
+		}
+		
+		public void end() {
+		}
+		
+	}
+	static class PlayerDisconnect implements LineParser {
+		
+		public PlayerDisconnect() {
+		}
+
+		public void parseLine(String line) {
+			int id = Integer.parseInt(line);
+			//todo
+		}
+		
+		public void end() {
+		}
+		
+	}
+	
 	static MapRunnable mapRunnable = new MapRunnable();
 	static IdNumberThing idNumberThing = new IdNumberThing();
 	static MoveProcessor moveProcessor = new MoveProcessor();
+	static NewPlayerProcessor newPlayerProcessor = new NewPlayerProcessor();
+	static PlayerDisconnect playerDisconnect = new PlayerDisconnect();
 	
 	public static void initialize(BugGameClient bugGame) {
 		hashMap.put("<map>", mapRunnable);
 		hashMap.put("<id>", idNumberThing);
 		hashMap.put("<move>", moveProcessor);
+		hashMap.put("<newPlayer>", newPlayerProcessor);
 		currentRunnable = null;
 		parent = bugGame;
 	}
