@@ -108,11 +108,12 @@ public class BugGameClient extends Game {
 		this.setScreen(gameScreen);
 	}
 
-	public void updateLocation(int id, float x, float y) {
+	public void updateLocation(int id, float x, float y, int rotation) {
 		for(Ant player : players) {
 			if (player.getID() == id) {
 				player.setX(x);
 				player.setY(y);
+				player.setRotation(rotation);
 				System.out.println("position updated");
 				break;
 			}

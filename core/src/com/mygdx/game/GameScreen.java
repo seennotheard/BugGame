@@ -205,25 +205,28 @@ public class GameScreen implements InputProcessor, Screen {
         		}
         		framesSinceLastKeypress = 0;
         	}
+        	int rotation = 0;
         	if(lastKeycode == Input.Keys.A | lastKeycode == Input.Keys.LEFT) {
                 camera.translate(-32/n,0);
-                sprite.setRotation(90);
+                rotation = 90;
         	}
             if(lastKeycode == Input.Keys.D | lastKeycode == Input.Keys.RIGHT) {
                 camera.translate(32/n,0);
-                sprite.setRotation(-90);
+                rotation = -90;
         	}
             if(lastKeycode == Input.Keys.S | lastKeycode == Input.Keys.DOWN) {
                 camera.translate(0,-32/n);
-                sprite.setRotation(180);
+                rotation = 180;
         	}
             if(lastKeycode == Input.Keys.W | lastKeycode == Input.Keys.UP) {
                 camera.translate(0,32/n);
-                sprite.setRotation(0);
+                rotation = 0;
         	}
+            sprite.setRotation(rotation);
             connectionThread.consoleInput("<move>");
             connectionThread.consoleInput(String.valueOf(camera.position.x - 16));
             connectionThread.consoleInput(String.valueOf(camera.position.y - 16));
+            connectionThread.consoleInput(String.valueOf(rotation));
             connectionThread.consoleInput("</end>");
         }
         if(lastKeycode == Input.Keys.Q)
@@ -241,6 +244,7 @@ public class GameScreen implements InputProcessor, Screen {
 
         for (int i = 0; i < parent.players.size(); i++) {
         	sprites.get(i).setPosition(parent.players.get(i).getX(), parent.players.get(i).getY());
+        	sprites.get(i).setRotation(parent.players.get(i).getRotation());
         	sprites.get(i).draw(sb);
         }
         
