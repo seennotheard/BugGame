@@ -259,6 +259,7 @@ public class SideViewScreen implements InputProcessor, Screen {
 
         for (int i = 0; i < parent.players.size(); i++) {
         	sprites.get(i).setPosition(parent.players.get(i).getX(), parent.players.get(i).getY());
+        	sprites.get(i).setRotation(parent.players.get(i).getRotation());
         	sprites.get(i).draw(sb);
         }
         
