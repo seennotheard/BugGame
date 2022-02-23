@@ -18,7 +18,7 @@ public class BugGameClient extends Game {
 	String localHost = "127.0.0.1";
 	Screen menu;
 	Screen serverSelect = new ServerScreen(this);
-	public TopDownScreen gameScreen;
+	public SideViewScreen gameScreen;
 	List<Disposable> assetList = new LinkedList<Disposable>();
 	
 	SpriteBatch batch;
@@ -37,7 +37,7 @@ public class BugGameClient extends Game {
 		gameSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 		menu = new MenuScreen(this);
 		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort, this);
-		gameScreen = new TopDownScreen(this, connectionThread);
+		gameScreen = new SideViewScreen(this, connectionThread);
 		//gameScreen = new GameScreen(this);
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
