@@ -1,5 +1,3 @@
-//client
-
 package com.mygdx.game;
 
 import java.util.HashMap;
@@ -57,7 +55,6 @@ public class MessageProcessor {
 		int id = 0;
 		float x = 0;
 		float y = 0;
-		int rotation;
 		public MoveProcessor() {
 		}
 
@@ -72,20 +69,16 @@ public class MessageProcessor {
 			else if (lineNumber == 2) {
 				y = Float.parseFloat(line);
 			}
-			else if (lineNumber == 3) {
-				rotation = Integer.parseInt(line);
-			}
 			lineNumber++;
 		}
 		
 		public void end() {
 			if (id != parent.idNumber) {
-				parent.updateLocation(id, x, y, rotation);
+				parent.updateLocation(id, x, y);
 			}
 			id = 0;
 			x = 0;
 			y = 0;
-			rotation = 0;
 			lineNumber = 0;
 		}
 		

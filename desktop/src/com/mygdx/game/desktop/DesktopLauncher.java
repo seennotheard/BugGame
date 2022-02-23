@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.BugGameClient;
 import com.mygdx.game.Drop;
-import com.mygdx.game.GameScreen;
+import com.mygdx.game.TopDownScreen;
 import com.mygdx.game.Drop;
 import java.awt.Toolkit;
 public class DesktopLauncher {

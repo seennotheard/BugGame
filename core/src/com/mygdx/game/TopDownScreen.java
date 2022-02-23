@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class GameScreen implements InputProcessor, Screen {
+public class TopDownScreen implements InputProcessor, Screen {
 	
     Texture img;
     TiledMap tiledMap;
@@ -54,7 +54,7 @@ public class GameScreen implements InputProcessor, Screen {
     
     private final Random random = new Random();
     
-    public GameScreen(BugGameClient bugGameClient, BugGameConnectionThread connectionThread) {
+    public TopDownScreen(BugGameClient bugGameClient, BugGameConnectionThread connectionThread) {
 		// TODO Auto-generated constructor stub
     	parent = bugGameClient;
     	this.connectionThread = connectionThread;
@@ -226,7 +226,6 @@ public class GameScreen implements InputProcessor, Screen {
             connectionThread.consoleInput("<move>");
             connectionThread.consoleInput(String.valueOf(camera.position.x - 16));
             connectionThread.consoleInput(String.valueOf(camera.position.y - 16));
-            connectionThread.consoleInput(String.valueOf(rotation));
             connectionThread.consoleInput("</end>");
         }
         if(lastKeycode == Input.Keys.Q)
@@ -244,7 +243,6 @@ public class GameScreen implements InputProcessor, Screen {
 
         for (int i = 0; i < parent.players.size(); i++) {
         	sprites.get(i).setPosition(parent.players.get(i).getX(), parent.players.get(i).getY());
-        	sprites.get(i).setRotation(parent.players.get(i).getRotation());
         	sprites.get(i).draw(sb);
         }
         

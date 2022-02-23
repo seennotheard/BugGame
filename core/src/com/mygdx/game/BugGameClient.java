@@ -18,7 +18,7 @@ public class BugGameClient extends Game {
 	String localHost = "127.0.0.1";
 	Screen menu;
 	Screen serverSelect = new ServerScreen(this);
-	public GameScreen gameScreen;
+	public TopDownScreen gameScreen;
 	List<Disposable> assetList = new LinkedList<Disposable>();
 	
 	SpriteBatch batch;
@@ -37,7 +37,7 @@ public class BugGameClient extends Game {
 		gameSkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 		menu = new MenuScreen(this);
 		BugGameConnectionThread connectionThread = new BugGameConnectionThread(localHost, defaultPort, this);
-		gameScreen = new GameScreen(this, connectionThread);
+		gameScreen = new TopDownScreen(this, connectionThread);
 		//gameScreen = new GameScreen(this);
 		//todo: load any assets
 		assetList.add(new Texture(Gdx.files.internal("droplet.png"))); //just a placeholder
@@ -108,12 +108,11 @@ public class BugGameClient extends Game {
 		this.setScreen(gameScreen);
 	}
 
-	public void updateLocation(int id, float x, float y, int rotation) {
+	public void updateLocation(int id, float x, float y) {
 		for(Ant player : players) {
 			if (player.getID() == id) {
 				player.setX(x);
 				player.setY(y);
-				player.setRotation(rotation);
 				System.out.println("position updated");
 				break;
 			}
