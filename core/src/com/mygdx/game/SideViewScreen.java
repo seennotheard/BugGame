@@ -297,13 +297,32 @@ public class SideViewScreen implements InputProcessor, Screen {
     	}
     	else if (keycode == Input.Keys.E) {
     		MapLayers layers = tiledMap.getLayers(); 
-        	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(1);
-        	Cell cell = layer.getCell((int) camera.position.x / 32, (int) camera.position.y / 32);
-        	if (cell != null) {
-        		foodCounter ++ ;
-        		layer.setCell((int) camera.position.x / 32, (int) camera.position.y / 32, null);
-        		System.out.println("tree nom");
+        	TiledMapTileLayer layer = (TiledMapTileLayer) layers.get(0);
+        	int xOffset = 0;
+        	int yOffset = 0;
+        	if (rotation == 90) {
+        		xOffset = -1;
         	}
+        	else if (rotation == -90) {
+        		xOffset = 1;
+        	}
+        	else if (rotation == 180) {
+        		yOffset = -1;
+        	}
+        	else {
+        		yOffset = 1;
+        	}
+        	
+        	setTileType(((int) camera.position.x / 32) + xOffset, ((int) camera.position.y / 32) + yOffset, 0);
+        	
+        	//Cell cell = layer.getCell(((int) camera.position.x / 32) + xOffset, ((int) camera.position.y / 32) + yOffset);
+        	
+        	/*
+        	if (cell != null) {
+        		foodCounter++;
+        		layer.setCell((int) camera.position.x / 32, (int) camera.position.y / 32, null);
+        	}
+        	*/
         	System.out.println(foodCounter); 
     	}
     	
@@ -374,7 +393,7 @@ public class SideViewScreen implements InputProcessor, Screen {
     		System.out.println("tree nom");
     	}
     	System.out.println(foodCounter);   
-    	**/
+    	*/
     	return true;
     }
 
