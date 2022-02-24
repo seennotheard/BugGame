@@ -29,6 +29,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class SideViewScreen implements InputProcessor, Screen {
+	private static final int LEFT = 90;
+	private static final int RIGHT = -90;
+	private static final int UP = 0;
+	private static final int DOWN =180;
 	
     Texture img;
     TiledMap tiledMap;
@@ -208,7 +212,7 @@ public class SideViewScreen implements InputProcessor, Screen {
 	int framesSinceLastKeypress = 0;
 	int lastKeycode;
 	float n = 20;
-	int rotation = 0;
+	int rotation = UP;
 	@Override
     public void render (float delta) { 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -327,16 +331,16 @@ public class SideViewScreen implements InputProcessor, Screen {
     	}
     	
     	if(keycode == Input.Keys.A || keycode == Input.Keys.LEFT) {
-            rotation = 90;
+            rotation = LEFT;
     	}
         if(keycode == Input.Keys.D || keycode == Input.Keys.RIGHT) {            
-            rotation = -90;
+            rotation = RIGHT;
     	}
         if(keycode == Input.Keys.S || keycode == Input.Keys.DOWN) {
-            rotation = 180;
+            rotation = DOWN;
     	}
         if(keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            rotation = 0;
+            rotation = UP;
     	}
         return false;
     }
